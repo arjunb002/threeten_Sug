@@ -51,7 +51,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.title("ThreeTen Suggestion")
 
 
-with open("/mount/src/threeten_sug/main/stock_list_500.py", "rb") as file:
+with open("stock_list_500.py", "rb") as file:
     stock_dict_500 = pickle.load(file)
 
 # In[3]:
