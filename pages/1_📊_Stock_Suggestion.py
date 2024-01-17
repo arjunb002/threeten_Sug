@@ -25,7 +25,7 @@ st.write(directory)
 #img = Image.open('/mount/src/threeten_sug/main/logo.png')
 #img_logo = Image.open('/mount/src/threeten_sug/main/10_wo_white_bg_1.png')
 
-st.set_page_config(page_title='ThreeTen', page_icon = img, layout = 'wide', initial_sidebar_state = 'auto')
+#st.set_page_config(page_title='ThreeTen', page_icon = img, layout = 'wide', initial_sidebar_state = 'auto')
 
 # Define the custom CSS
 hide_streamlit_style = """
@@ -43,7 +43,7 @@ footer:after {
 
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-st.sidebar.image(img_logo)
+#st.sidebar.image(img_logo)
 
 
 
