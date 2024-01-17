@@ -35,7 +35,7 @@ footer:after {
 
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-#st.sidebar.image(img_logo1)
+st.sidebar.image(img_logo)
 
 
 
