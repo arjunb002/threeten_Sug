@@ -14,10 +14,10 @@ import base64
 from io import BytesIO
 
 # st.set_page_config(layout="wide")
-img = Image.open('logo_1.png')
-img_logo = Image.open('10_wo_white_bg_2.png')
+img1 = Image.open('logo_1.png')
+img_logo1 = Image.open('10_wo_white_bg_2.png')
 
-st.set_page_config(page_title='ThreeTen', page_icon = img, layout = 'wide', initial_sidebar_state = 'auto')
+st.set_page_config(page_title='ThreeTen', page_icon = img1, layout = 'wide', initial_sidebar_state = 'auto')
 
 # Define the custom CSS
 hide_streamlit_style = """
@@ -35,7 +35,7 @@ footer:after {
 
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-st.sidebar.image(img_logo)
+st.sidebar.image(img_logo1)
 
 
 
