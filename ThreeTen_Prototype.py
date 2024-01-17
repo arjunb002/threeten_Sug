@@ -14,8 +14,8 @@ import calendar
 
 
 # st.set_page_config(layout="wide")
-img = Image.open('D:/ThreeTen/threeten/logo.png')
-img_logo = Image.open('D:/ThreeTen/threeten/310_wo_white_bg_1.png')
+img = Image.open('logo.png')
+img_logo = Image.open('310_wo_white_bg_1.png')
 
 st.set_page_config(page_title='ThreeTen', page_icon = img, layout = 'wide', initial_sidebar_state = 'auto')
 
@@ -41,10 +41,10 @@ st.sidebar.image(img_logo)
 # Title and image layout
 st.title("ThreeTen Prototype")
 
-with open("D:/ThreeTen/threeten/stock_list.py", "rb") as file:
+with open("stock_list.py", "rb") as file:
     stock_dict = pickle.load(file)
     
-with open("D:/ThreeTen/threeten/ques_dict.py", "rb") as file:
+with open("ques_dict.py", "rb") as file:
     ques_dict = pickle.load(file)
 
 question_1 = st.text_input("Enter your question:")
