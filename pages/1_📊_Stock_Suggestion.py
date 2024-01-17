@@ -14,7 +14,7 @@ import base64
 from io import BytesIO
 
 # st.set_page_config(layout="wide")
-#img1 = Image.open('logo_1.png')
+img1 = Image.open('logo_1.png')
 #img_logo1 = Image.open('10_wo_white_bg_2.png')
 
 st.set_page_config(page_title='ThreeTen', layout = 'wide', initial_sidebar_state = 'auto')
