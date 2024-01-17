@@ -18,7 +18,7 @@ import os
 #to get the current working directory
 directory = os.getcwd()
 
-print(directory)
+st.write(directory)
 # In[ ]:
 
 # st.set_page_config(layout="wide")
