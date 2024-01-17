@@ -13,7 +13,12 @@ from PIL import Image
 import base64
 from io import BytesIO
 
+import os
 
+#to get the current working directory
+directory = os.getcwd()
+
+print(directory)
 # In[ ]:
 
 # st.set_page_config(layout="wide")
