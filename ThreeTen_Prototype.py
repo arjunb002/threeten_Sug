@@ -40,7 +40,12 @@ st.sidebar.image(img_logo)
 
 # Title and image layout
 st.title("ThreeTen Prototype")
+import os
 
+#to get the current working directory
+directory = os.getcwd()
+
+st.write(directory)
 with open("stock_list.py", "rb") as file:
     stock_dict = pickle.load(file)
     
