@@ -17,8 +17,8 @@ from io import BytesIO
 # In[ ]:
 
 # st.set_page_config(layout="wide")
-img = Image.open('D:/ThreeTen/threeten/logo.png')
-img_logo = Image.open('D:/ThreeTen/threeten/310_wo_white_bg_1.png')
+img = Image.open('logo.png')
+img_logo = Image.open('10_wo_white_bg_1.png')
 
 st.set_page_config(page_title='ThreeTen', page_icon = img, layout = 'wide', initial_sidebar_state = 'auto')
 
@@ -46,7 +46,7 @@ st.sidebar.image(img_logo)
 st.title("ThreeTen Suggestion")
 
 
-with open("D:/ThreeTen/threeten/stock_list_500.py", "rb") as file:
+with open("stock_list_500.py", "rb") as file:
     stock_dict_500 = pickle.load(file)
 
 # In[3]:
