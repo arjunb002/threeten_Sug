@@ -6,4 +6,4 @@ pandas == 2.0.3
 pandas-ta == 0.3.14b0
 requests ==  2.31.0
 Pillow == 9.4.0
-
+XlsxWriter==3.1.8
