@@ -46,7 +46,7 @@ st.sidebar.image(img_logo)
 st.title("ThreeTen Suggestion")
 
 
-with open("arjunb002/threeten_sug/stock_list_500.py", "rb") as file:
+with open("threeten_sug/stock_list_500.py", "rb") as file:
     stock_dict_500 = pickle.load(file)
 
 # In[3]:
