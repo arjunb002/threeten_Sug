@@ -101,6 +101,7 @@ if st.button("Run for Suggestion"):
 # In[ ]:
 
 try:
+    buy_df.reset_index(inplace=True, drop=True)
     st.write("### Suggestion for Stocks to buy today", buy_df.sort_index())
 except:
     pass
