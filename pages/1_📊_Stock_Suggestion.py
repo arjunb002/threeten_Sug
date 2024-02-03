@@ -51,65 +51,88 @@ with open("stock_list_500.py", "rb") as file:
 
 @st.cache_data(show_spinner=False)
 
-def signal_ind(sticker):
-    lookback = 100
+def signal_ind(sticker, stock_name):
 
-    # Define the threshold for minimum demand
+    lookback = 100
     demand_threshold = 2
 
     symbol = '{}.NS'.format(sticker)
-    end_date = (datetime.today()+ timedelta(days=1)).strftime('%Y-%m-%d') 
-    start_date = (datetime.today() - timedelta(days=200)).strftime('%Y-%m-%d')
 
-    # Fetch data from Yahoo Finance
-    df = yf.download(symbol, start=start_date, end=end_date) 
+    df = yf.download(symbol) 
     
-#     df = yf.download(symbol, end='2024-01-17')
-
-    # Calculate the demand and supply levels
     df['demand'] = df['High'].rolling(window=lookback).max() - df['Low']
     df['supply'] = df['Low'] - df['Low'].rolling(window=lookback).min()
 
-    # Initialize signal columns
     df['long_signal'] = False
     df['short_signal'] = False
 
-    # Generate buy signals
     df.loc[(df['demand'] > demand_threshold) & (df['supply'] < df['demand']), 'long_signal'] = True
-
-    # Generate sell signals
     df.loc[(df['supply'] > df['demand']) & (df['demand'] < demand_threshold), 'short_signal'] = True
     
-    return df.iloc[[-1]]
+    df_new = df.iloc[[-1]]
+    
+    if df.iloc[-1]['long_signal'] == True:
+        df_new['Filter_1'] = 'Yes'
+    else:
+        df_new['Filter_1'] = 'No'
+
+
+    all_time_high = df['High'].max()
+    current_price = df['Close'].iloc[-1]
+
+    if current_price >= (0.95 * all_time_high) and current_price <= (1.05 * all_time_high):
+        df_new['Filter_2'] = 'Yes'
+    else:
+        df_new['Filter_2'] = 'No'
+
+        
+    last_30_days_data = df.iloc[-30:]
+    min_price = current_price * 0.90  # 5% below the all-time high
+    max_price = current_price * 1.05  # 1% above the all-time high
+    within_range = all(
+        min_price <= price <= max_price
+        for price in last_30_days_data['Close']
+    )
+
+    if within_range:
+        df_new['Filter_3'] = 'Yes'
+    else:
+        df_new['Filter_3'] = 'No'
+        
+    return df_new
 
 
 if st.button("Run for Suggestion"):
     with st.spinner('Loading Suggested Stocks...'):
-        buy_df = pd.DataFrame()
-        buy_list = []
+        buy_df1 = pd.DataFrame()
+        buy_df2 = pd.DataFrame()
+        buy_df3 = pd.DataFrame()
         for i in stock_dict_500.keys():
             symbol = stock_dict_500[i]
             try:
-                df = signal_ind(symbol)
-                if df.iloc[-1]['long_signal'] == True:
-                    buy_df = pd.concat([buy_df, pd.DataFrame([{'Stock Name':i, 'Current Price' : df.iloc[-1]['Close']}])])
-                    buy_list.append(i)
+                df_new = signal_ind(symbol, i)
+                if df_new.iloc[-1]['Filter_1'] == 'Yes':
+                    buy_df1 = pd.concat([buy_df1, pd.DataFrame([{'Stock Name':i, 'Current Price' : df_new.iloc[-1]['Close']}])])
+                if df_new.iloc[-1]['Filter_2'] == 'Yes':
+                    buy_df2 = pd.concat([buy_df2, pd.DataFrame([{'Stock Name':i, 'Current Price' : df_new.iloc[-1]['Close']}])])
+                if df_new.iloc[-1]['Filter_3'] == 'Yes':
+                    buy_df3 = pd.concat([buy_df3, pd.DataFrame([{'Stock Name':i, 'Current Price' : df_new.iloc[-1]['Close']}])])
             except:
                 pass
 
 
-# In[ ]:
-
 try:
-    buy_df.reset_index(inplace=True, drop=True)
-    st.write("### Suggestion for Stocks to buy today", buy_df.sort_index())
+    buy_df1.reset_index(inplace=True, drop=True)
+    common_stocks = pd.merge(buy_df2[['Stock Name','Current Price']], buy_df3[['Stock Name']], on='Stock Name', how='inner')
+    print(buy_df1.head(2))
+    print(common_stocks.head(2))
+    st.write("### Suggestion for Stocks to buy today")
+    col1, col2 = st.columns(2)
+    col1.dataframe(buy_df1.sort_index())
+    col2.dataframe(common_stocks.sort_index())
 except:
     pass
 
-current_date = (datetime.today()).strftime('%Y_%b_%d') 
-
-# st.dataframe(buy_df)
-# st.write(buy_list)
 
 def to_excel(df):
     output = BytesIO()
@@ -123,14 +146,21 @@ def to_excel(df):
     processed_data = output.getvalue()
     return processed_data
 
+current_date = (datetime.today()).strftime('%Y_%b_%d') 
+
 try:
-    df_xlsx = to_excel(buy_df)
-    st.download_button(label='📥 Download Current Result',
-                                data=df_xlsx ,
-                                file_name= 'Stock_Suggestion_'+current_date+'.xlsx')
+    df_xlsx1 = to_excel(buy_df1)
+    df_xlsx2 = to_excel(common_stocks)
+    col1.download_button(label='📥 Download Current Suggestion 1',
+                                    data=df_xlsx1 ,
+                                    file_name= 'Stock_Suggestion_1_'+current_date+'.xlsx')
+    col2.download_button(label='📥 Download Current Suggestion 2',
+                                    data=df_xlsx2 ,
+                                    file_name= 'Stock_Suggestion_2_'+current_date+'.xlsx')
 except:
     pass
 
+    
 
 st.sidebar.write("Button to rerun the suggestion list")
 
