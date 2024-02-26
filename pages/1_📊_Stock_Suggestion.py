@@ -70,8 +70,8 @@ def signal_ind(sticker, stock_name):
     df.loc[(df['supply'] > df['demand']) & (df['demand'] < demand_threshold), 'short_signal'] = True
     
     all_time_high_365 = df.tail(365)['Close'].max()
-    min_drawdown = all_time_high_365 * 0.9
-    max_drawdown = all_time_high_365 * 0.7
+    max_drawdown = all_time_high_365 * 0.9
+    min_drawdown = all_time_high_365 * 0.7
     
     df_new = df.iloc[[-1]]
     
