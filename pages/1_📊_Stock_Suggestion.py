@@ -58,7 +58,8 @@ def signal_ind(sticker, stock_name):
 
     symbol = '{}.NS'.format(sticker)
 
-    df = yf.download(symbol) 
+    _df = yf.download(symbol) 
+    df = _df.tail(365)
     
     df['demand'] = df['High'].rolling(window=lookback).max() - df['Low']
     df['supply'] = df['Low'] - df['Low'].rolling(window=lookback).min()
