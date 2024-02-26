@@ -69,9 +69,13 @@ def signal_ind(sticker, stock_name):
     df.loc[(df['demand'] > demand_threshold) & (df['supply'] < df['demand']), 'long_signal'] = True
     df.loc[(df['supply'] > df['demand']) & (df['demand'] < demand_threshold), 'short_signal'] = True
     
+   all_time_high_365 = df.tail(365)['Close'].max()
+    min_drawdown = all_time_high_365 * 0.9
+    max_drawdown = all_time_high_365 * 0.7
+    
     df_new = df.iloc[[-1]]
     
-    if df.iloc[-1]['long_signal'] == True:
+    if (df.iloc[-1]['long_signal'] == True) and (df.iloc[-1]['Close'] >= min_drawdown) and (df.iloc[-1]['Close'] <= max_drawdown):
         df_new['Filter_1'] = 'Yes'
     else:
         df_new['Filter_1'] = 'No'
