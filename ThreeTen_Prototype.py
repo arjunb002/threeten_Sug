@@ -212,7 +212,7 @@ chartMultipaneOptions = [
             "horzAlign": 'center',
             "vertAlign": 'center',
             "color": 'rgba(171, 71, 188, 0.3)',
-            "text": '{}'.format(symbol),
+            "text": '{}'.format(symbol.replace(".NS","")),
         }
     },
     {
@@ -361,7 +361,7 @@ overlaidAreaSeriesOptions ={
             "horzAlign": 'center',
             "vertAlign": 'center',
             "color": 'rgba(171, 71, 188, 0.3)',
-            "text": '{}'.format(symbol),
+            "text": '{}'.format(symbol.replace(".NS","")),
         }
 }
 
