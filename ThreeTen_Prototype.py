@@ -41,7 +41,7 @@ st.sidebar.image(img_logo)
 # Title and image layout
 st.title("ThreeTen Prototype")
 
-with open("stock_list.py", "rb") as file:
+with open("stock_list_nse.py", "rb") as file:
     stock_dict = pickle.load(file)
     
 with open("ques_dict.py", "rb") as file:
@@ -99,7 +99,7 @@ def get_stock_news_links(stock_symbol, num_links=5):
 
 
 # Request historic pricing data via finance.yahoo.com API
-df = yf.Ticker('{}.NS'.format(symbol)).history(period='30D')[['Open', 'High', 'Low', 'Close', 'Volume']]
+df = yf.Ticker(symbol).history(period='30D')[['Open', 'High', 'Low', 'Close', 'Volume']]
 # if df.shape[0] == 0:
 #     st.write("Data is not available for {}".format(stock_name))
 #     break
@@ -116,7 +116,7 @@ macd_slow = json.loads(df.rename(columns={"MACDs_6_12_5": "value"}).to_json(orie
 df['color'] = np.where(  df['MACD_6_12_5'] > 0, COLOR_BULL, COLOR_BEAR)  # MACD histogram color
 macd_hist = json.loads(df.rename(columns={"MACD_6_12_5": "value"}).to_json(orient = "records"))
 
-stock_symbol = "{}.NS".format(symbol)
+stock_symbol = symbol
 current_date = datetime.date.today()
 start_date = current_date - datetime.timedelta(days=365)
 start_date = start_date.strftime('%Y-%m-01')
@@ -431,10 +431,10 @@ renderLightweightCharts([
 html_code = """
 <blockquote class="trendlyne-widgets" data-get-url="https://trendlyne.com/web-widget/swot-widget/Poppins/{}/?posCol=00A25B&primaryCol=006AFF&negCol=EB3B00&neuCol=F7941E" data-theme="light"></blockquote>
 <script async src="https://cdn-static.trendlyne.com/static/js/webwidgets/tl-widgets.js" charset="utf-8"></script>
-""".format(symbol)
+""".format(symbol.replace(".NS",""))
 
 st.components.v1.html(html_code, width=800, height=300)
 
 if __name__ == "__main__":
-    stock_symbol = "{}".format(symbol)  # Replace with the stock symbol you're interested in
+    stock_symbol = "{}".format(symbol.replace(".NS",""))  # Replace with the stock symbol you're interested in
     get_stock_news_links(stock_symbol)
