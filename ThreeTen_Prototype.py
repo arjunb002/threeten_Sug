@@ -69,7 +69,7 @@ COLOR_BEAR = 'rgba(239,83,80,0.9)'  # #ef5350
 
 def get_stock_news_links(stock_symbol, num_links=5):
     api_url = "https://newsapi.org/v2/everything"
-    api_key = "f557e62e757f449b9d60aa74f9c0b75d"  # Sign up at https://newsapi.org/ to get your API key
+    api_key = "07d88aa4de4e43db8ca60892f71f1412"  # Sign up at https://newsapi.org/ to get your API key
 
     params = {
         "q": stock_symbol,
